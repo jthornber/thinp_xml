@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require 'thinp_xml'
+require 'ejt_command_line'
+
+#----------------------------------------------------------------
+
+puts <<EOF
+Manipulation of thin provisioning xml format metadata
+  --help, -h:	Show this message
+EOF
+
+#----------------------------------------------------------------
