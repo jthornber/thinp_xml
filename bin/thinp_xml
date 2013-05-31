@@ -5,9 +5,69 @@ require 'ejt_command_line'
 
 #----------------------------------------------------------------
 
-puts <<EOF
+XMLCommandLine = CommandLine::Parser.new do
+  value_type :string do |str|
+    str
+  end
+
+  value_type :int do |str|
+    str.to_i
+  end
+
+  simple_switch :help, '--help', '-h'
+
+  global do
+    switches :help
+  end
+end
+
+class Dispatcher
+  def global_command(opts, args)
+    if args.size > 0
+      die "unknown command '#{args[0]}'"
+    else
+      if opts[:help]
+        help(STDOUT)
+      else
+        die "no command given"
+      end
+    end
+  end
+
+  private
+  def die(msg)
+    STDERR.puts msg
+    exit(1)
+  end
+
+  def help(out)
+    out.write <<EOF
 Manipulation of thin provisioning xml format metadata
   --help, -h:	Show this message
 EOF
+  end
+end
+
+def parse_command_line(dispatcher, *args)
+  XMLCommandLine.parse(dispatcher, *args)
+end
+
+def top_level_handler(&block)
+  begin
+    block.call
+  rescue => e
+    STDERR.puts e.message
+    exit 1
+  end
+
+  exit 0
+end
+
+#----------------------------------------------------------------
+
+top_level_handler do
+  dispatcher = Dispatcher.new
+  parse_command_line(dispatcher, *ARGV)
+end
 
 #----------------------------------------------------------------
