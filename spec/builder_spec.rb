@@ -74,6 +74,14 @@ describe "ThinpXML::Builder" do
         dev.mapped_blocks.should == 101
       end
     end
+
+    it "should generate a single mapping" do
+      @b.nr_thins = 1
+      @b.nr_mappings = 101
+      md = @b.generate
+
+      md.devices[0].should have(1).mappings
+    end
   end
 end
 

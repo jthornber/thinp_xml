@@ -20,8 +20,9 @@ module ThinpXML
       offset = 0
       0.upto(@nr_thins - 1) do |dev|
         mappings = Array.new
-        1.upto(@nr_mappings) do |n|
-          mappings << Mapping.new(n, offset + n, 1, 1)
+
+        if @nr_mappings > 0
+          mappings << Mapping.new(0, offset, @nr_mappings, 1)
           offset += @nr_mappings
         end
 

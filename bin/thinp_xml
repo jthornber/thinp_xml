@@ -17,13 +17,14 @@ XMLCommandLine = CommandLine::Parser.new do
   simple_switch :help, '--help', '-h'
   value_switch :uuid, :string, '--uuid'
   value_switch :nr_thins, :int, '--nr-thins'
+  value_switch :nr_mappings, :int, '--nr-mappings'
 
   global do
     switches :help
   end
 
   command :create do
-    switches :uuid, :nr_thins
+    switches :uuid, :nr_thins, :nr_mappings
   end
 end
 
