@@ -5,15 +5,16 @@ require 'thinp_xml/metadata'
 module ThinpXML
 
   class Builder
-    attr_accessor :nr_thins, :nr_mappings
+    attr_accessor :uuid, :nr_thins, :nr_mappings
 
     def initialize
+      @uuid = ''
       @nr_thins = 0
       @nr_mappings = 0
     end
 
     def generate
-      superblock = Superblock.new("uuid here", 0, 1, 128, 100)
+      superblock = Superblock.new(@uuid, 0, 1, 128, 100)
 
       devices = Array.new
       offset = 0

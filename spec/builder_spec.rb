@@ -11,6 +11,25 @@ describe "ThinpXML::Builder" do
     device.mappings.inject(0) {|sum, m| sum + m.length}
   end
 
+  describe "uuid" do
+    it "should be an empty string by default" do
+      @b.uuid.should == ''
+    end
+
+    it "should reflect any changes" do
+      uuid = 'one two three'
+      @b.uuid = uuid
+      @b.uuid.should == uuid
+    end
+
+    it "should generate the correct uuid" do
+      uuid = 'one two three'
+      @b.uuid = uuid
+      md = @b.generate
+      md.superblock.uuid.should == uuid
+    end
+  end
+
   describe "nr of thins" do
     it "zero by default" do
       @b.nr_thins.should == 0

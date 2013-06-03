@@ -15,12 +15,15 @@ XMLCommandLine = CommandLine::Parser.new do
   end
 
   simple_switch :help, '--help', '-h'
+  value_switch :uuid, :string, '--uuid'
 
   global do
     switches :help
   end
 
-  command :create
+  command :create do
+    switches :uuid
+  end
 end
 
 class Dispatcher
@@ -40,6 +43,7 @@ class Dispatcher
 
   def create(opts, args)
     b = ThinpXML::Builder.new
+    b.uuid = opts.fetch(:uuid, '')
     b.nr_thins = opts.fetch(:nr_thins, 0)
     b.nr_mappings = opts.fetch(:nr_mappings, 0)
     md = b.generate
