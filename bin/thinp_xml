@@ -15,12 +15,12 @@ XMLCommandLine = CommandLine::Parser.new do
     Integer(str)
   end
 
-  UNIFORM_REGEX = /uniform\((\d+),\s*(\d+)\)/
+  UNIFORM_REGEX = /uniform\[(\d+)..(\d+)\]/
 
   value_type :int_distribution do |str|
     m = UNIFORM_REGEX.match(str)
     if m
-      ThinpXML::UniformDistribution.new(m[1].to_i, m[2].to_i)
+      ThinpXML::UniformDistribution.new(m[1].to_i, m[2].to_i + 1)
     else
       Integer(str)
     end

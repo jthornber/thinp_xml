@@ -42,12 +42,16 @@ Feature: I can create new metadata
     """
 
   Scenario: A uniform distribution can be given for nr thins
-    When I thinp_xml create --nr-thins uniform(4,7)
+    When I thinp_xml create --nr-thins uniform[4..7]
     Then it should pass
 
-  Scenario: An unkown distrubution should fail for the nr thins
-    When I thinp_xml create --nr-thins fred(1,2,3)
+  Scenario: An unknown distrubution should fail for the nr thins
+    When I thinp_xml create --nr-thins fred[1..2]
     Then it should fail
+
+  Scenario: A uniform distribution can be given for nr mappings
+    When I thinp_xml create --nr-thins 1 --nr-mappings uniform[40..100]
+    Then it should pass
 
 
 
