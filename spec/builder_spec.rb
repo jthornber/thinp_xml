@@ -49,6 +49,14 @@ describe "ThinpXML::Builder" do
         md.devices[n].should_not == nil
       end
     end
+
+    it "should take a distribution" do
+      @b.nr_thins = UniformDistribution.new(2, 6)
+      md = @b.generate
+
+      md.should have_at_most(5).devices
+      md.should have_at_least(2).devices
+    end
   end
 
   describe "nr of mappings" do

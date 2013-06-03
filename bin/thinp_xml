@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'thinp_xml'
+require 'thinp_xml/distribution'
 require 'ejt_command_line'
 
 #----------------------------------------------------------------
@@ -11,13 +12,24 @@ XMLCommandLine = CommandLine::Parser.new do
   end
 
   value_type :int do |str|
-    str.to_i
+    Integer(str)
+  end
+
+  UNIFORM_REGEX = /uniform\((\d+),\s*(\d+)\)/
+
+  value_type :int_distribution do |str|
+    m = UNIFORM_REGEX.match(str)
+    if m
+      ThinpXML::UniformDistribution.new(m[1].to_i, m[2].to_i)
+    else
+      Integer(str)
+    end
   end
 
   simple_switch :help, '--help', '-h'
   value_switch :uuid, :string, '--uuid'
-  value_switch :nr_thins, :int, '--nr-thins'
-  value_switch :nr_mappings, :int, '--nr-mappings'
+  value_switch :nr_thins, :int_distribution, '--nr-thins'
+  value_switch :nr_mappings, :int_distribution, '--nr-mappings'
 
   global do
     switches :help

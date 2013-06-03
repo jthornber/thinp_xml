@@ -41,4 +41,13 @@ Feature: I can create new metadata
     </superblock>
     """
 
+  Scenario: A uniform distribution can be given for nr thins
+    When I thinp_xml create --nr-thins uniform(4,7)
+    Then it should pass
+
+  Scenario: An unkown distrubution should fail for the nr thins
+    When I thinp_xml create --nr-thins fred(1,2,3)
+    Then it should fail
+
+
 

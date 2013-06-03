@@ -6,7 +6,6 @@ include ThinpXML
 
 module ApproxInt
   def approx?(target, delta)
-    STDERR.puts "actual == #{self.to_i}"
     (self.to_i >= target - delta) && (self.to_i <= target + delta)
   end
 end
@@ -43,8 +42,22 @@ describe "random distributions" do
         buckets[n].should be_approx(1000, 200)
       end
     end
+
+    it "should have a to_i method that just calls generate" do
+      dist = UniformDistribution.new(1, 10)
+
+      # redefine generate
+      $called456 = false
+      class << dist
+        def generate
+          $called456 = true
+        end
+      end
+
+      dist.to_i
+      $called456.should be_true
+    end
   end
 end
 
 #----------------------------------------------------------------
-

@@ -18,6 +18,10 @@ module ThinpXML
     def generate
       @start + rand(@stop - @start)
     end
+
+    def to_i
+      generate
+    end
   end
 end
 
