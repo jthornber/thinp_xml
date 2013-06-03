@@ -14,7 +14,6 @@ module ThinpXML
 
     def generate
       nr_thins = @nr_thins.to_i
-      nr_mappings = @nr_mappings.to_i
 
       superblock = Superblock.new(@uuid, 0, 1, 128, 100)
 
@@ -22,6 +21,7 @@ module ThinpXML
       offset = 0
       0.upto(nr_thins - 1) do |dev|
         mappings = Array.new
+        nr_mappings = @nr_mappings.to_i
 
         if nr_mappings > 0
           mappings << Mapping.new(0, offset, nr_mappings, 1)
