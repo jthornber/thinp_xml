@@ -1,6 +1,12 @@
-# ThinpXml
+# ThinpXML
 
-TODO: Write a gem description
+This gem contains a library and command line tool for manipulating the
+XML format for thin provisioning metadata.
+
+Convert thinp's binary format to/from xml using the _thin\_dump_ and
+_thin\_restore_ tools in [thin-provisioning-tools][tpt]
+
+[tpt]: https://github.com/jthornber/thin-provisioning-tools "Thin provisioning tools"
 
 ## Installation
 
@@ -18,12 +24,12 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    $ thinp_xml create --nr-thins 4 --nr-mappings 100
 
-## Contributing
+When specifying numerical constants you may also give a random number distribution.
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+    uniform[<begin>..<end inclusive>]
+
+    $ thinp_xml create --nr-thins uniform[4..9] --nr-mappings uniform[1000..10000]
+
+
