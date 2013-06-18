@@ -90,6 +90,14 @@ describe "ThinpXML::Builder" do
 
       md.devices[0].should have(1).mappings
     end
+
+    it "should be used to calculate the nr data blocks" do
+      @b.nr_thins = 2
+      @b.nr_mappings = 117
+      md = @b.generate
+
+      md.superblock.nr_data_blocks.should == 234
+    end
   end
 end
 
