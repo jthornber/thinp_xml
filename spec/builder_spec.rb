@@ -30,6 +30,24 @@ describe "ThinpXML::Builder" do
     end
   end
 
+  describe "block_size" do
+    it "should be 128 by default" do
+      @b.block_size.should == 128
+    end
+
+    it "should reflect any changes" do
+      @b.block_size = 512
+      @b.block_size.should == 512
+    end
+
+    it "should generate the correct block size" do
+      bs = 1024
+      @b.block_size = bs
+      md = @b.generate
+      md.superblock.data_block_size.should == bs
+    end
+  end
+
   describe "nr of thins" do
     it "zero by default" do
       @b.nr_thins.should == 0
