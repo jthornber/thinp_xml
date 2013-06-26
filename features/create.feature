@@ -16,6 +16,14 @@ Feature: I can create new metadata
     </superblock>
     """
 
+  Scenario: Create a valid superblock with specified block size
+    When I thinp_xml create --block-size 512
+    Then the stdout should contain:
+    """
+    <superblock uuid="" time="0" transaction="1" data_block_size="512" nr_data_blocks="0">
+    </superblock>
+    """
+
   Scenario: Take an expression for the number of devices
     When I thinp_xml create --nr-thins 3
     Then the stdout should contain:
