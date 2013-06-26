@@ -24,12 +24,12 @@ Or install it yourself as:
 
 ## Usage
 
-    $ thinp_xml create --nr-thins 4 --nr-mappings 100
+    $ thinp_xml create --nr-thins 4 --nr-mappings 100 --block-size 512
 
 When specifying numerical constants you may also give a random number distribution.
 
     uniform[<begin>..<end inclusive>]
 
-    $ thinp_xml create --nr-thins uniform[4..9] --nr-mappings uniform[1000..10000]
+    $ thinp_xml create --nr-thins uniform[4..9] --nr-mappings uniform[1000..10000] --block-size 1024
 
 
