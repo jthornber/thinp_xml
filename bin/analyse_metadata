@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'thinp_xml'
+require 'thinp_xml/analysis'
+
+#----------------------------------------------------------------
+
+include ThinpXML
+
+ARGV.each do |path|
+  STDERR.puts "analysing #{path}"
+  File.open(path, 'r') do |file|
+    md = read_xml(file)
+    analysis = MetadataAnalysis.new(md)
+    analysis.fragmentations
+  end
+end
+
+#----------------------------------------------------------------
