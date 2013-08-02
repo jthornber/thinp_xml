@@ -57,7 +57,7 @@ class MetadataAnalysis
 
     units.each do |u|
       if size >= u.factor
-        return "#{size / u.factor}#{u.abbrev}"
+        return "%.2f #{u.abbrev}" % [Float(size) / Float(u.factor)]
       end
     end
 
