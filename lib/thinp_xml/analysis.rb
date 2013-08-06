@@ -24,9 +24,9 @@ class MetadataAnalysis
   def fragmentations
     @md.devices.each do |dev|
       puts "device #{dev.dev_id}"
-      printf("  %10s %10s %10s\n",
-             'io size', 'seeks/io', 'distance/seek')
-      puts "  --------------------------------------"
+      printf("  %10s %10s %10s %10s\n",
+             'io size', 'seeks/io', 'distance/seek', 'distance/io')
+      puts "  -------------------------------------------------"
 
       power = 0
       loop do
@@ -36,9 +36,10 @@ class MetadataAnalysis
         break if r.nil?
         seeks, dist = r
 
-        printf("  %10s\t%.3f\t%s\n",
+        printf("  %10s\t%.3f\t%s\t\t%s\n",
                segments_to_human(io_size),
-               seeks, segments_to_human(dist.to_i))
+               seeks, segments_to_human(dist.to_i),
+               segments_to_human(seeks * dist.to_i))
 
         power += 1
       end
