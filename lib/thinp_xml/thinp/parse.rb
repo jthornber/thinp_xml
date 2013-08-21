@@ -1,12 +1,17 @@
 require 'thinp_xml/thinp/metadata'
+require 'thinp_xml/listener'
+
 require 'rexml/document'
 require 'rexml/streamlistener'
+
+#----------------------------------------------------------------
 
 module ThinpXML
   module ParseDetail
     include REXML
 
     class Listener
+      include Base::ListenerUtils
       include REXML::StreamListener
 
       attr_reader :metadata
@@ -15,31 +20,6 @@ module ThinpXML
         @metadata = Metadata.new(nil, Array.new)
       end
 
-      def to_hash(pairs)
-        r = Hash.new
-        pairs.each do |p|
-          r[p[0].intern] = p[1]
-        end
-        r
-      end
-
-      def get_fields(attr, flds)
-        flds.map do |n,t|
-          case t
-          when :int
-            attr[n].to_i
-
-          when :string
-            attr[n]
-
-          when :object
-            attr[n]
-
-          else
-            raise "unknown field type"
-          end
-        end
-      end
 
       def tag_start(tag, args)
         attr = to_hash(args)
@@ -60,17 +40,11 @@ module ThinpXML
           @current_device.mappings << Mapping.new(*get_fields(attr, MAPPING_FIELDS))
 
         else
-          puts "unhandled tag '#{tag} #{attr.map {|x| x.inspect}.join(', ')}'"
+          raise "unhandled tag '#{tag} #{attr.map {|x| x.inspect}.join(', ')}'"
         end
       end
 
       def tag_end(tag)
-      end
-
-      def text(data)
-        return if data =~ /^\w*$/ # ignore whitespace
-        abbrev = data[0..40] + (data.length > 40 ? "..." : "")
-        puts "  text    :    #{abbrev.inspect}"
       end
     end
   end
