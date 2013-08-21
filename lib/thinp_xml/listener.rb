@@ -3,8 +3,6 @@
 module ThinpXML
   module Base
     module ListenerUtils
-      include REXML::StreamListener
-
       def to_hash(pairs)
         r = Hash.new
         pairs.each do |p|
