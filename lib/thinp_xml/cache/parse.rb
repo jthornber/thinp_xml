@@ -8,11 +8,9 @@ require 'rexml/streamlistener'
 
 module ThinpXML
   module CacheParseDetail
-    include REXML
-
     class Listener
       include Base::ListenerUtils
-      include Base::StreamListener
+      include REXML::StreamListener
 
       attr_reader :metadata
 
