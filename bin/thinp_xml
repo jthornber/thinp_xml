@@ -41,6 +41,8 @@ XMLCommandLine = CommandLine::Parser.new do
   end
 end
 
+#--------------------------------
+
 class Dispatcher
   include ThinpXML
 
