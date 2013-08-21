@@ -1,4 +1,4 @@
-require 'thinp_xml/builder'
+require 'thinp_xml/thinp/builder'
 
 #----------------------------------------------------------------
 

@@ -10,9 +10,9 @@ unless ThinpXML::tools_are_installed
   raise "please install the thin provisioning tools version #{THINP_TOOLS_VERSION}"
 end
 
-require 'thinp_xml/builder'
-require 'thinp_xml/emit'
-require 'thinp_xml/metadata'
-require 'thinp_xml/parse'
-require 'thinp_xml/utils'
+require 'thinp_xml/thinp/builder'
+require 'thinp_xml/thinp/emit'
+require 'thinp_xml/thinp/metadata'
+require 'thinp_xml/thinp/parse'
+require 'thinp_xml/thinp/utils'
 require 'thinp_xml/version'

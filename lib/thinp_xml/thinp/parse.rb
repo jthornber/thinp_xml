@@ -1,4 +1,4 @@
-require 'thinp_xml/metadata'
+require 'thinp_xml/thinp/metadata'
 require 'rexml/document'
 require 'rexml/streamlistener'
 
