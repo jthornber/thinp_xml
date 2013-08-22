@@ -58,6 +58,14 @@ describe "integer distributions" do
       dist = UniformDistribution.new(1, 10)
     end
 
+    it "should only accept start and stop if they're different" do
+      expect {UniformDistribution.new(45, 45)}.to raise_error
+    end
+
+    it "should only accept start if it's lower than stop" do
+      expect {UniformDistribution.new(45, 35)}.to raise_error
+    end
+
     it "should generate a number from this range every time generate is called" do
       dist = UniformDistribution.new(1, 10)
 
@@ -114,6 +122,7 @@ describe "integer distributions" do
       it "should accept well formed expressions" do
         10.times do
           b, e = [rand(100), rand(100)].sort
+          e += 1
           d = parse_distribution("uniform[#{b}..#{e}]")
 
           100.times do
