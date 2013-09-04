@@ -1,3 +1,4 @@
+require 'thinp_xml/cache/builder'
 require 'thinp_xml/cache/emit'
 require 'thinp_xml/cache/metadata'
 require 'thinp_xml/cache/parse'

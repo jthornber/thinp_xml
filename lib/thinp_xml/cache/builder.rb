@@ -23,7 +23,7 @@ module CacheXML
       case @mapping_policy
       when :linear
         cb = 0
-        ob = rand(1000)
+        ob = safe_rand(@nr_cache_blocks - @nr_mappings)
 
         @nr_mappings.times do
           mappings << Mapping.new(cb, ob)
@@ -65,13 +65,18 @@ module CacheXML
     end
 
     def nr_mappings=(n)
-      raise "nr_mappings must not exceed nr_cache_blocks" if n > @nr_cache_blocks
+      n = n.to_i
+      #raise "nr_mappings must not exceed nr_cache_blocks" if n > @nr_cache_blocks
       @nr_mappings = n
     end
 
     private
     def valid_policy(sym)
       [:random, :linear].member?(sym)
+    end
+
+    def safe_rand(n)
+      n == 0 ? 0 : rand(n)
     end
   end
 end

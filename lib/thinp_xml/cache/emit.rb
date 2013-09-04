@@ -3,7 +3,7 @@ require 'thinp_xml/emitter'
 
 #----------------------------------------------------------------
 
-module ThinpXML
+module CacheXML
   module CacheEmitterDetail
     class CacheEmitter
       def initialize(out)
@@ -15,7 +15,7 @@ module ThinpXML
       end
 
       def emit_mapping(m)
-        @e.emit_line("<mapping cache_block=\"#{m.cache_block}\" origin_block=\"#{m.origin_block}\"\>")
+        @e.emit_tag(m, 'mapping', :cache_block, :origin_block)
       end
 
       def emit_hint(h)
