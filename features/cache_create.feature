@@ -50,4 +50,16 @@ Feature: I can create new metadata
       <mapping cache_block="2" origin_block="2" dirty="false"/>
     </superblock>
     """
+
+  Scenario: Take a percentage for the number of dirty mappings
+    When I cache_xml create --nr-cache-blocks 3 --nr-mappings 3 --layout linear --dirty-percent 100
+    Then the stdout should contain:
+    """
+    <superblock uuid="" block_size="128" nr_cache_blocks="3">
+      <mapping cache_block="0" origin_block="0" dirty="true"/>
+      <mapping cache_block="1" origin_block="1" dirty="true"/>
+      <mapping cache_block="2" origin_block="2" dirty="true"/>
+    </superblock>
+    """
+
     
