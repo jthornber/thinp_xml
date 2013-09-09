@@ -45,9 +45,9 @@ Feature: I can create new metadata
     Then the stdout should contain:
     """
     <superblock uuid="" block_size="128" nr_cache_blocks="3">
-      <mapping cache_block="0" origin_block="0"/>
-      <mapping cache_block="1" origin_block="1"/>
-      <mapping cache_block="2" origin_block="2"/>
+      <mapping cache_block="0" origin_block="0" dirty="false"/>
+      <mapping cache_block="1" origin_block="1" dirty="false"/>
+      <mapping cache_block="2" origin_block="2" dirty="false"/>
     </superblock>
     """
     
