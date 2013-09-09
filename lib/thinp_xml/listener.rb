@@ -17,6 +17,16 @@ module ThinpXML
           when :int
             attr[n].to_i
 
+          when :bool
+            case attr[n]
+            when 'true'
+              true
+            when 'false'
+              false
+            else
+              raise "bad boolean value '#{attr[n]}'"
+            end
+
           when :string
             attr[n]
 

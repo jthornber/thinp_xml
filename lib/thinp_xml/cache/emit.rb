@@ -15,7 +15,7 @@ module CacheXML
       end
 
       def emit_mapping(m)
-        @e.emit_tag(m, 'mapping', :cache_block, :origin_block)
+        @e.emit_tag(m, 'mapping', :cache_block, :dirty, :origin_block)
       end
 
       def emit_hint(h)

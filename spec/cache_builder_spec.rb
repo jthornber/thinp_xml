@@ -3,6 +3,15 @@ require 'thinp_xml/cache/builder'
 #----------------------------------------------------------------
 
 describe "CacheXML::Builder" do
+  def as_percentage(n, tot)
+    (n * 100) / tot
+  end
+
+  def approx_percentage(n, tot, target)
+    actual = as_percentage(n, tot)
+    (actual - target).abs < 3
+  end
+
   before :each do
     @b = CacheXML::Builder.new
   end
@@ -103,6 +112,48 @@ describe "CacheXML::Builder" do
           @b.nr_cache_blocks = rand(1000)
           @b.nr_mappings = rand(@b.nr_cache_blocks)
           @b.generate.should have(@b.nr_mappings).mappings
+        end
+      end
+    end
+
+    describe "dirty percentage" do
+      it "should default to zero" do
+        @b.dirty_percentage.should == 0
+      end
+
+      it "should throw if set to a negative number" do
+        expect do
+          @b.dirty_percentage = -20
+        end.to raise_error(RuntimeError, /-20/)
+      end
+
+      it "should throw if set to a > 100 number" do
+        expect do
+          @b.dirty_percentage = 101
+        end.to raise_error(RuntimeError, /101/)
+      end
+
+      it "should accept a valid value" do
+        [0, 1, 34, 78, 99, 100].each do |valid_value|
+          @b.dirty_percentage = valid_value
+          @b.dirty_percentage.should == valid_value
+        end
+      end
+
+      it "should generate the required percentage" do
+        n_mappings = 10000
+        @b.nr_cache_blocks = n_mappings
+        @b.nr_mappings = n_mappings
+
+        [0, 1, 34, 78, 99, 100].each do |p|
+          @b.dirty_percentage = p
+          metadata = @b.generate
+          nr_dirty = 0
+          metadata.mappings.each do |m|
+            nr_dirty += 1 if m.dirty
+          end
+
+          approx_percentage(nr_dirty, n_mappings, p).should be_true
         end
       end
     end

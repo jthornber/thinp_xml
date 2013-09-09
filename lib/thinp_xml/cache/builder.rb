@@ -5,7 +5,7 @@ require 'thinp_xml/cache/metadata'
 module CacheXML
   class Builder
     attr_accessor :uuid, :block_size, :nr_cache_blocks, :policy_name
-    attr_reader :mapping_policy, :nr_mappings
+    attr_reader :mapping_policy, :nr_mappings, :dirty_percentage
 
     def initialize
       @uuid = ''
@@ -14,6 +14,7 @@ module CacheXML
       @policy_name = 'mq'
       @mapping_policy = :random
       @nr_mappings = 0
+      @dirty_percentage = 0
     end
 
     def generate
@@ -26,7 +27,8 @@ module CacheXML
         ob = safe_rand(@nr_cache_blocks - @nr_mappings)
 
         @nr_mappings.times do
-          mappings << Mapping.new(cb, ob)
+          dirty = safe_rand(100) < @dirty_percentage
+          mappings << Mapping.new(cb, ob, dirty)
           cb += 1
           ob += 1
         end
@@ -47,7 +49,8 @@ module CacheXML
           origin_blocks[n] = origin_blocks[index]
           origin_blocks[index] = tmp
 
-          mappings << Mapping.new(n, origin_blocks[n])
+          dirty = safe_rand(100) < @dirty_percentage
+          mappings << Mapping.new(n, origin_blocks[n], dirty)
         end
 
       else
@@ -68,6 +71,11 @@ module CacheXML
       n = n.to_i
       #raise "nr_mappings must not exceed nr_cache_blocks" if n > @nr_cache_blocks
       @nr_mappings = n
+    end
+
+    def dirty_percentage=(n)
+      raise "invalid percentage (#{n})" if n < 0 || n > 100
+      @dirty_percentage = n
     end
 
     private

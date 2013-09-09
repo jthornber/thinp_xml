@@ -5,7 +5,8 @@ module CacheXML
                        [:policy_name, :string]]
 
   MAPPING_FIELDS = [[:cache_block, :int],
-                    [:origin_block, :int]]
+                    [:origin_block, :int],
+                    [:dirty, :bool]]
 
   HINT_FIELDS = [[:cache_block, :int],
                  [:encoded_data, :string]]
