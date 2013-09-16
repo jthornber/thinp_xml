@@ -21,11 +21,11 @@ module ThinpXML
         end
       end
 
-      private
       def emit_line(str)
         @out.puts((' ' * @indent) + str)
       end
 
+      private
       def push
         @indent += 2
       end
