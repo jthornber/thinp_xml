@@ -231,7 +231,6 @@ describe "CacheXML::Builder" do
 
         in_order.should be_false
       end
-
     end
   end
 end

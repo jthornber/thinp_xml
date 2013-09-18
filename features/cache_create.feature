@@ -4,7 +4,7 @@ Feature: I can create new metadata
     When I cache_xml create
     Then the stdout should contain:
     """
-    <superblock uuid="" block_size="128" nr_cache_blocks="0">
+    <superblock uuid="" block_size="128" nr_cache_blocks="0" policy="mq">
     </superblock>
     """
 
@@ -12,7 +12,7 @@ Feature: I can create new metadata
     When I cache_xml create --uuid 'one two three'
     Then the stdout should contain:
     """
-    <superblock uuid="one two three" block_size="128" nr_cache_blocks="0">
+    <superblock uuid="one two three" block_size="128" nr_cache_blocks="0" policy="mq">
     </superblock>
     """
 
@@ -20,7 +20,7 @@ Feature: I can create new metadata
     When I cache_xml create --block-size 512
     Then the stdout should contain:
     """
-    <superblock uuid="" block_size="512" nr_cache_blocks="0">
+    <superblock uuid="" block_size="512" nr_cache_blocks="0" policy="mq">
     </superblock>
     """
 
@@ -28,7 +28,7 @@ Feature: I can create new metadata
     When I cache_xml create --nr-cache-blocks 345
     Then the stdout should contain:
     """
-    <superblock uuid="" block_size="128" nr_cache_blocks="345">
+    <superblock uuid="" block_size="128" nr_cache_blocks="345" policy="mq">
     </superblock>
     """
 
@@ -36,7 +36,7 @@ Feature: I can create new metadata
     When I cache_xml create --nr-cache-blocks uniform[123..124]
     Then the stdout should contain:
     """
-    <superblock uuid="" block_size="128" nr_cache_blocks="123">
+    <superblock uuid="" block_size="128" nr_cache_blocks="123" policy="mq">
     </superblock>
     """
 
@@ -44,7 +44,7 @@ Feature: I can create new metadata
     When I cache_xml create --nr-cache-blocks 3 --nr-mappings 3 --layout linear
     Then the stdout should contain:
     """
-    <superblock uuid="" block_size="128" nr_cache_blocks="3">
+    <superblock uuid="" block_size="128" nr_cache_blocks="3" policy="mq">
       <mapping cache_block="0" origin_block="0" dirty="false"/>
       <mapping cache_block="1" origin_block="1" dirty="false"/>
       <mapping cache_block="2" origin_block="2" dirty="false"/>
@@ -55,11 +55,22 @@ Feature: I can create new metadata
     When I cache_xml create --nr-cache-blocks 3 --nr-mappings 3 --layout linear --dirty-percent 100
     Then the stdout should contain:
     """
-    <superblock uuid="" block_size="128" nr_cache_blocks="3">
+    <superblock uuid="" block_size="128" nr_cache_blocks="3" policy="mq">
       <mapping cache_block="0" origin_block="0" dirty="true"/>
       <mapping cache_block="1" origin_block="1" dirty="true"/>
       <mapping cache_block="2" origin_block="2" dirty="true"/>
     </superblock>
     """
 
+  Scenario: Take the policy name
+    When I cache_xml create --nr-cache-blocks 3 --nr-mappings 3 --layout linear --policy fred
+    Then the stdout should contain:
+    """
+    <superblock uuid="" block_size="128" nr_cache_blocks="3" policy="fred">
+      <mapping cache_block="0" origin_block="0" dirty="false"/>
+      <mapping cache_block="1" origin_block="1" dirty="false"/>
+      <mapping cache_block="2" origin_block="2" dirty="false"/>
+    </superblock>
+    """
+    
     

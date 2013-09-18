@@ -2,7 +2,7 @@ module CacheXML
   SUPERBLOCK_FIELDS = [[:uuid, :string],
                        [:block_size, :int],
                        [:nr_cache_blocks, :int],
-                       [:policy_name, :string]]
+                       [:policy, :string]]
 
   MAPPING_FIELDS = [[:cache_block, :int],
                     [:origin_block, :int],

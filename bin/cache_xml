@@ -47,13 +47,15 @@ CacheCommandLine = CommandLine::Parser.new do
   value_switch :nr_mappings, :distribution, '--nr-mappings'
   value_switch :mapping_policy, :layout, '--layout'
   value_switch :dirty_percentage, :percentage, '--dirty-percent'
+  value_switch :policy, :string, '--policy'
 
   global do
     switches :help
   end
 
   command :create do
-    switches :nr_cache_blocks, :uuid, :block_size, :nr_mappings, :mapping_policy, :dirty_percentage
+    switches :nr_cache_blocks, :uuid, :block_size, :nr_mappings,
+             :mapping_policy, :dirty_percentage, :policy
   end
 end
 
@@ -82,6 +84,7 @@ class Dispatcher
     b.nr_mappings = opts.fetch(:nr_mappings, 0)
     b.mapping_policy = opts.fetch(:mapping_policy, :random)
     b.dirty_percentage = opts.fetch(:dirty_percentage, 0)
+    b.policy_name = opts.fetch(:policy, 'mq')
     md = b.generate
     write_xml(md, STDOUT)
   end
