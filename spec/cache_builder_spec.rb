@@ -70,14 +70,43 @@ describe "CacheXML::Builder" do
   describe "policy name" do
     it "should be 'mq' by default" do
       @b.policy_name.should == 'mq'
-      @b.generate.superblock.policy_name.should == 'mq'
+      @b.generate.superblock.policy.should == 'mq'
     end
 
     it "should reflect changes" do
       n = 'most_recently_not_used_least'
       @b.policy_name = n
       @b.policy_name.should == n
-      @b.generate.superblock.policy_name.should == n
+      @b.generate.superblock.policy.should == n
+    end
+  end
+
+  describe "hint width" do
+    it "should be '4' by default" do
+      @b.hint_width.should == 4
+      @b.generate.superblock.hint_width.should == 4
+    end
+
+    it "should allow a hint size between 4 and 128, mod 4" do
+      0.upto(132) do |n|
+        if (((n % 4) == 0) && n <= 128)
+          @b.hint_width = n
+          @b.hint_width.should == n
+        end
+      end
+    end
+
+    it "should disallow other hint sizes" do
+      [3, 7, 23, 93, 129].each do |n|
+        expect do
+          @b.hint_width = n
+        end.to raise_error
+      end
+    end
+
+    it "should reflect changes" do
+      @b.hint_width = 12
+      @b.generate.superblock.hint_width.should == 12
     end
   end
 

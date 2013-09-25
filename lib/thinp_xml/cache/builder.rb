@@ -5,7 +5,7 @@ require 'thinp_xml/cache/metadata'
 module CacheXML
   class Builder
     attr_accessor :uuid, :block_size, :nr_cache_blocks, :policy_name
-    attr_reader :mapping_policy, :nr_mappings, :dirty_percentage
+    attr_reader :mapping_policy, :nr_mappings, :dirty_percentage, :hint_width
 
     def initialize
       @uuid = ''
@@ -15,10 +15,13 @@ module CacheXML
       @mapping_policy = :random
       @nr_mappings = 0
       @dirty_percentage = 0
+      @hint_width = 4
     end
 
     def generate
-      superblock = Superblock.new(@uuid, @block_size.to_i, @nr_cache_blocks.to_i, @policy_name)
+      superblock = Superblock.new(@uuid, @block_size.to_i,
+                                  @nr_cache_blocks.to_i,
+                                  @policy_name, @hint_width)
       mappings = []
 
       case @mapping_policy
@@ -76,6 +79,11 @@ module CacheXML
     def dirty_percentage=(n)
       raise "invalid percentage (#{n})" if n < 0 || n > 100
       @dirty_percentage = n
+    end
+
+    def hint_width=(n)
+      raise "invalid hint width (#{n})" if n > 128 || ((n % 4) != 0)
+      @hint_width = n
     end
 
     private

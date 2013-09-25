@@ -11,7 +11,7 @@ module CacheXML
       end
 
       def emit_superblock(sb, &block)
-        @e.emit_tag(sb, 'superblock', :uuid, :block_size, :nr_cache_blocks, :policy, &block)
+        @e.emit_tag(sb, 'superblock', :uuid, :block_size, :nr_cache_blocks, :policy, :hint_width, &block)
       end
 
       def emit_mapping(m)
