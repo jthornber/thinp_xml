@@ -45,9 +45,11 @@ Feature: I can create new metadata
     Then the stdout should contain:
     """
     <superblock uuid="" block_size="128" nr_cache_blocks="3" policy="mq" hint_width="4">
-      <mapping cache_block="0" origin_block="0" dirty="false"/>
-      <mapping cache_block="1" origin_block="1" dirty="false"/>
-      <mapping cache_block="2" origin_block="2" dirty="false"/>
+      <mappings>
+        <mapping cache_block="0" origin_block="0" dirty="false"/>
+        <mapping cache_block="1" origin_block="1" dirty="false"/>
+        <mapping cache_block="2" origin_block="2" dirty="false"/>
+      </mappings>
     </superblock>
     """
 
@@ -56,9 +58,11 @@ Feature: I can create new metadata
     Then the stdout should contain:
     """
     <superblock uuid="" block_size="128" nr_cache_blocks="3" policy="mq" hint_width="4">
-      <mapping cache_block="0" origin_block="0" dirty="true"/>
-      <mapping cache_block="1" origin_block="1" dirty="true"/>
-      <mapping cache_block="2" origin_block="2" dirty="true"/>
+      <mappings>
+        <mapping cache_block="0" origin_block="0" dirty="true"/>
+        <mapping cache_block="1" origin_block="1" dirty="true"/>
+        <mapping cache_block="2" origin_block="2" dirty="true"/>
+      </mappings>
     </superblock>
     """
 
@@ -67,9 +71,11 @@ Feature: I can create new metadata
     Then the stdout should contain:
     """
     <superblock uuid="" block_size="128" nr_cache_blocks="3" policy="fred" hint_width="4">
-      <mapping cache_block="0" origin_block="0" dirty="false"/>
-      <mapping cache_block="1" origin_block="1" dirty="false"/>
-      <mapping cache_block="2" origin_block="2" dirty="false"/>
+      <mappings>
+        <mapping cache_block="0" origin_block="0" dirty="false"/>
+        <mapping cache_block="1" origin_block="1" dirty="false"/>
+        <mapping cache_block="2" origin_block="2" dirty="false"/>
+      </mappings>
     </superblock>
     """
 
@@ -78,8 +84,10 @@ Feature: I can create new metadata
     Then the stdout should contain:
     """
     <superblock uuid="" block_size="128" nr_cache_blocks="3" policy="mq" hint_width="8">
-      <mapping cache_block="0" origin_block="0" dirty="false"/>
-      <mapping cache_block="1" origin_block="1" dirty="false"/>
-      <mapping cache_block="2" origin_block="2" dirty="false"/>
+      <mappings>
+        <mapping cache_block="0" origin_block="0" dirty="false"/>
+        <mapping cache_block="1" origin_block="1" dirty="false"/>
+        <mapping cache_block="2" origin_block="2" dirty="false"/>
+      </mappings>
     </superblock>
     """

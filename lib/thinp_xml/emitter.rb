@@ -11,9 +11,9 @@ module ThinpXML
       def emit_tag(obj, tag, *fields, &block)
         expanded = fields.map {|fld| "#{fld}=\"#{obj.send(fld)}\""}
         if block.nil?
-          emit_line "<#{tag} #{expanded.join(' ')}/>"
+          emit_line "<#{tag}#{join_fields(expanded)}/>"
         else
-          emit_line "<#{tag} #{expanded.join(' ')}>"
+          emit_line "<#{tag}#{join_fields(expanded)}>"
           push
           yield unless block.nil?
           pop
@@ -26,6 +26,11 @@ module ThinpXML
       end
 
       private
+
+      def join_fields(fields)
+        fields.size == 0 ? "" : " #{fields.join(' ')}"
+      end
+
       def push
         @indent += 2
       end
