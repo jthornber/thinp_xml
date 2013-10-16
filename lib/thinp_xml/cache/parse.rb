@@ -15,7 +15,7 @@ module ThinpXML
       attr_reader :metadata
 
       def initialize
-        @metadata = Metdadata.new(nil, [], [])
+        @metadata = Metadata.new(nil, [], [])
       end
 
       def tag_start(tag, args)
