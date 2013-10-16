@@ -6,16 +6,18 @@ require 'rexml/streamlistener'
 
 #----------------------------------------------------------------
 
-module ThinpXML
+module CacheXML
   module CacheParseDetail
     class Listener
-      include Base::ListenerUtils
+      include ThinpXML::Base::ListenerUtils
       include REXML::StreamListener
 
       attr_reader :metadata
 
       def initialize
         @metadata = Metadata.new(nil, [], [])
+        @in_mappings = false
+        @in_hints = false
       end
 
       def tag_start(tag, args)
@@ -25,11 +27,19 @@ module ThinpXML
         when 'superblock'
           @metadata.superblock = Superblock.new(*get_fields(attr, SUPERBLOCK_FIELDS))
 
+        when 'mappings'
+          @in_mappings = true
+
         when 'mapping'
+          raise "not in mappings section" unless @in_mappings
           m = Mapping.new(*get_fields(attr, MAPPING_FIELDS))
           @metadata.mappings << m
 
+        when 'hints'
+          @in_hints = true
+
         when 'hint'
+          raise "not in hints section" unless @in_hints
           h = Hint.new(*get_fields(attr, HINT_FIELDS))
           @metadata.hints << h
 
@@ -39,6 +49,13 @@ module ThinpXML
       end
 
       def tag_end(tag)
+        case tag
+        when 'mappings'
+          @in_mappings = false
+
+        when 'hints'
+          @in_hints = false
+        end
       end
     end
   end
