@@ -18,80 +18,80 @@ describe "CacheXML::Builder" do
 
   describe "uuid" do
     it "should be an empty string by default" do
-      @b.uuid.should == ''
+      expect(@b.uuid).to eq('')
     end
 
     it "should reflect any changes" do
       uuid = 'one two three'
       @b.uuid = uuid
-      @b.uuid.should == uuid
+      expect(@b.uuid).to eq(uuid)
     end
 
     it "should generate the correct uuid" do
       uuid = 'one two three'
       @b.uuid = uuid
       md = @b.generate
-      md.superblock.uuid.should == uuid
+      expect(md.superblock.uuid).to eq(uuid)
     end
   end
 
   describe "block_size" do
     it "should be 128 by default" do
-      @b.block_size.should == 128
+      expect(@b.block_size).to eq(128)
     end
 
     it "should reflect any changes" do
       @b.block_size = 512
-      @b.block_size.should == 512
+      expect(@b.block_size).to eq(512)
     end
 
     it "should generate the correct block size" do
       bs = 1024
       @b.block_size = bs
       md = @b.generate
-      md.superblock.block_size.should == bs
+      expect(md.superblock.block_size).to eq(bs)
     end
   end
 
   describe "nr cache blocks" do
     it "should be zero by default" do
-      @b.nr_cache_blocks.should == 0
-      @b.generate.should have(0).mappings
+      expect(@b.nr_cache_blocks).to eq(0)
+      expect(@b.generate.mappings.size).to eq(0)
     end
 
     it "should reflect any changes" do
       n = rand(1000)
       @b.nr_cache_blocks = n
-      @b.nr_cache_blocks.should == n
-      @b.generate.superblock.nr_cache_blocks.should == n
+      expect(@b.nr_cache_blocks).to eq(n)
+      expect(@b.generate.superblock.nr_cache_blocks).to eq(n)
     end
   end
 
   describe "policy name" do
     it "should be 'mq' by default" do
-      @b.policy_name.should == 'mq'
-      @b.generate.superblock.policy.should == 'mq'
+      expect(@b.policy_name).to eq('mq')
+      expect(@b.generate.superblock.policy).to eq('mq')
     end
 
     it "should reflect changes" do
       n = 'most_recently_not_used_least'
       @b.policy_name = n
-      @b.policy_name.should == n
-      @b.generate.superblock.policy.should == n
+      expect(@b.policy_name).to eq(n)
+      expect(@b.generate.superblock.policy).to eq(n)
     end
   end
 
   describe "hint width" do
     it "should be '4' by default" do
-      @b.hint_width.should == 4
-      @b.generate.superblock.hint_width.should == 4
+      expect(@b.hint_width).to eq(4)
+      expect(@b.generate.superblock.hint_width).to eq(4)
     end
 
     it "should allow a hint size between 4 and 128, mod 4" do
       0.upto(132) do |n|
         if (((n % 4) == 0) && n <= 128)
           @b.hint_width = n
-          @b.hint_width.should == n
+          expect(@b.hint_width).to eq(n)
         end
       end
     end
@@ -106,14 +106,14 @@ describe "CacheXML::Builder" do
 
     it "should reflect changes" do
       @b.hint_width = 12
-      @b.generate.superblock.hint_width.should == 12
+      expect(@b.generate.superblock.hint_width).to eq(12)
     end
   end
 
   describe "mappings" do
     describe "mapping policy" do
       it "should default to :random" do
-        @b.mapping_policy.should == :random
+        expect(@b.mapping_policy).to eq(:random)
       end
 
       it "should only accept :random, or :linear" do
@@ -125,7 +125,7 @@ describe "CacheXML::Builder" do
 
     describe "nr mappings" do
       it "should default to zero" do
-        @b.nr_mappings.should == 0
+        expect(@b.nr_mappings).to eq(0)
       end
 
       it "should never be bigger than the nr_cache_blocks" do
@@ -140,14 +140,14 @@ describe "CacheXML::Builder" do
         100.times do
           @b.nr_cache_blocks = rand(1000)
           @b.nr_mappings = rand(@b.nr_cache_blocks)
-          @b.generate.should have(@b.nr_mappings).mappings
+          expect(@b.generate.mappings.size).to eq(@b.nr_mappings)
         end
       end
     end
 
     describe "dirty percentage" do
       it "should default to zero" do
-        @b.dirty_percentage.should == 0
+        expect(@b.dirty_percentage).to eq(0)
       end
 
       it "should throw if set to a negative number" do
@@ -165,7 +165,7 @@ describe "CacheXML::Builder" do
       it "should accept a valid value" do
         [0, 1, 34, 78, 99, 100].each do |valid_value|
           @b.dirty_percentage = valid_value
-          @b.dirty_percentage.should == valid_value
+          expect(@b.dirty_percentage).to eq(valid_value)
         end
       end
 
@@ -182,7 +182,7 @@ describe "CacheXML::Builder" do
             nr_dirty += 1 if m.dirty
           end
 
-          approx_percentage(nr_dirty, n_mappings, p).should be_true
+          expect(approx_percentage(nr_dirty, n_mappings, p)).to be_truthy
         end
       end
     end
@@ -199,7 +199,7 @@ describe "CacheXML::Builder" do
 
         cb = 0
         mappings.each do |m|
-          m.cache_block.should == cb
+          expect(m.cache_block).to eq(cb)
           cb += 1
         end
       end
@@ -214,7 +214,7 @@ describe "CacheXML::Builder" do
           if b.nil?
             b = m.origin_block
           else
-            m.origin_block.should == b
+            expect(m.origin_block).to eq(b)
           end
 
           b += 1
@@ -234,7 +234,7 @@ describe "CacheXML::Builder" do
 
         cb = 0
         mappings.each do |m|
-          m.cache_block.should == cb
+          expect(m.cache_block).to eq(cb)
           cb += 1
         end
       end
@@ -258,7 +258,7 @@ describe "CacheXML::Builder" do
           b += 1
         end
 
-        in_order.should be_false
+        expect(in_order).to be_falsey
       end
     end
   end
