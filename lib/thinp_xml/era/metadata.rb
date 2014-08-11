@@ -9,7 +9,7 @@ module EraXML
                      [:bits, :array]]
 
   BIT_FIELDS = [[:block, :int],
-                [:vlaue, :bool]]
+                [:value, :bool]]
 
   def self.field_names(flds)
     flds.map {|p| p[0]}

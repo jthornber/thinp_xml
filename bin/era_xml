@@ -1,0 +1,114 @@
+#!/usr/bin/env ruby
+
+require 'thinp_xml/era_xml'
+require 'ejt_command_line'
+
+include EraXML
+
+#----------------------------------------------------------------
+
+EraCommandLine = CommandLine::Parser.new do
+  value_type :string do |str|
+    str
+  end
+
+  value_type :int do |str|
+    Integer(str)
+  end
+
+  simple_switch :help, '--help', '-h'
+  value_switch :uuid, :string, '--uuid'
+  value_switch :block_size, :int, '--block-size'
+  value_switch :nr_blocks, :int, '--nr-blocks'
+  value_switch :current_era, :int, '--current-era'
+  value_switch :nr_writesets, :int, '--nr-writesets'
+
+  global do
+    switches :help
+  end
+
+  command :create do
+    switches :uuid, :block_size, :nr_blocks, :current_era, :nr_writesets
+  end
+end
+
+#----------------------------------------------------------------
+
+class Dispatcher
+  include EraXML
+
+  def global_command(opts, args)
+    if args.size > 0
+      die "unknown command '#{args[0]}'"
+      else
+      if opts[:help]
+        help(STDOUT)
+      else
+        die "no command given"
+      end
+    end
+  end
+
+  def create(opts, args)
+    b = Builder.new
+    b.uuid = opts.fetch(:uuid, '')
+    b.block_size = opts.fetch(:block_size, 128)
+    b.nr_blocks = opts.fetch(:nr_blocks, 0)
+    b.current_era = opts.fetch(:current_era, 0)
+    b.nr_writesets = opts.fetch(:nr_writesets, 0)
+
+    md = b.generate
+    write_xml(md, STDOUT)
+  end
+
+  private
+  def die(msg)
+    STDERR.puts msg
+    exit(1)
+  end
+
+  def help(out)
+    # FIXME: inadequate
+    out.write <<EOF
+Manipulation of era xml format metadata
+
+Usage:
+   era_xml [options]
+     --help, -h:   Show this message
+
+   era_xml create [options]
+     --uuid:         Set the uuid for the metadata
+     --block-size:   Set the block size, in 512 byte sectors
+     --nr-blocks:    Set the number of blocks
+     --current-era:  Set the current era
+
+     --nr-writesets: Output a number of undigested writesets (you
+                     probably don't need this unless you're debugging).
+EOF
+  end
+end
+
+def parse_command_line(dispatcher, *args)
+  EraCommandLine.parse(dispatcher, *args)
+end
+
+def top_level_handler(&block)
+  begin
+    block.call
+  rescue => e
+    STDERR.puts e.message
+    STDERR.puts e.backtrace.join("\n")
+    exit 1
+  end
+
+  exit 0
+end
+
+#----------------------------------------------------------------
+
+top_level_handler do
+  dispatcher = Dispatcher.new
+  parse_command_line(dispatcher, *ARGV)
+end
+
+#----------------------------------------------------------------

@@ -6,6 +6,10 @@ When(/^I cache_xml (.*)$/) do |cmd|
   run_simple(unescape("cache_xml #{cmd}"), false)
 end
 
+When(/^I era_xml (.*)$/) do |cmd|
+  run_simple(unescape("era_xml #{cmd}"), false)
+end
+
 Then(/^it should pass$/) do
   assert_success(true)
 end
