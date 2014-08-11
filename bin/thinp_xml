@@ -86,6 +86,7 @@ def top_level_handler(&block)
     block.call
   rescue => e
     STDERR.puts e.message
+    STDERR.puts e.backtrace.join("\n")
     exit 1
   end
 
