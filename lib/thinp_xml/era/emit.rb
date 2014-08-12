@@ -29,7 +29,7 @@ module EraXML
       def emit_era_array(ea)
         block = lambda do
           ea.each_index do |b|
-            @e.emit_line("<era block=\"#{b}\" era=\"#{ea[b]}\"\\>")
+            @e.emit_line("<era block=\"#{b}\" era=\"#{ea[b]}\"/>")
           end
         end
 
