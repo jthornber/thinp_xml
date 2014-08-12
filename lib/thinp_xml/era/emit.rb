@@ -18,11 +18,11 @@ module EraXML
         sets.each do |ws|
           block = lambda do
             ws.bits.each do |b|
-              @e.emit_tag(b, :block, :value)
+              @e.emit_tag(b, :bit, :value)
             end
           end
 
-          @e.emit_tag(ws, 'writeset', :era, :nr_blocks, &block)
+          @e.emit_tag(ws, 'writeset', :era, :nr_bits, &block)
         end
       end
 

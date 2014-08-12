@@ -5,7 +5,7 @@ module EraXML
                        [:current_era, :int]]
 
   WRITESET_FIELDS = [[:era, :int],
-                     [:nr_blocks, :int],
+                     [:nr_bits, :int],
                      [:bits, :array]]
 
   BIT_FIELDS = [[:block, :int],
