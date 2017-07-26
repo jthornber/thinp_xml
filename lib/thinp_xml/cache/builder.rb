@@ -72,7 +72,7 @@ module CacheXML
 
     def nr_mappings=(n)
       n = n.to_i
-      #raise "nr_mappings must not exceed nr_cache_blocks" if n > @nr_cache_blocks
+      raise "nr_mappings must not exceed nr_cache_blocks" if n > @nr_cache_blocks
       @nr_mappings = n
     end
 

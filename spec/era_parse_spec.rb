@@ -6,7 +6,7 @@ include EraXML
 
 describe "EraXML::read_xml" do
   it "should handle metadata with zero blocks" do
-    metadata = read_xml(StringIO.new(<<EOF))
+    metadata = EraXML::read_xml(StringIO.new(<<EOF))
 <superblock uuid="" block_size="128" nr_blocks="0" current_era="0">
   <era_array>
   </era_array>
@@ -19,7 +19,7 @@ EOF
   end
 
   it "should handle more complicated metadata" do
-    metadata = read_xml(StringIO.new(<<EOF))
+    metadata = EraXML::read_xml(StringIO.new(<<EOF))
 <superblock uuid="blip blop" block_size="256" nr_blocks="32" current_era="100">
   <writeset era="98" nr_bits="32">
     <bit block="0" value="true"/>

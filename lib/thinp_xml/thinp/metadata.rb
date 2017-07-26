@@ -2,6 +2,8 @@ module ThinpXML
   SUPERBLOCK_FIELDS = [[:uuid, :string],
                        [:time, :int],
                        [:transaction, :int],
+											 [:flags, :int],
+											 [:version, :int],
                        [:data_block_size, :int],
                        [:nr_data_blocks, :int]]
 

@@ -18,7 +18,7 @@ module ThinpXML
 
       mapping_counts = (0..nr_thins - 1).map {|n| @nr_mappings.to_i}
       nr_data_blocks = mapping_counts.inject(0) {|n, tot| n + tot}
-      superblock = Superblock.new(@uuid, 0, 1, @block_size, nr_data_blocks)
+      superblock = Superblock.new(@uuid, 0, 1, 0, 2, @block_size, nr_data_blocks)
 
       devices = Array.new
       offset = 0

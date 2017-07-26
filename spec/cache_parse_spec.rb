@@ -26,7 +26,7 @@ EOF
 describe "CacheXML::read_xml" do
   # a sanity check (debugging some namespace issues)
   it "should work" do
-    read_xml(StringIO.new(INPUT))
+    CacheXML::read_xml(StringIO.new(INPUT))
   end
 end
 

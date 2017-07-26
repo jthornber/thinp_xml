@@ -1,4 +1,5 @@
 require 'thinp_xml/thinp/builder'
+require 'thinp_xml/distribution'
 
 #----------------------------------------------------------------
 
@@ -69,7 +70,7 @@ describe "ThinpXML::Builder" do
     end
 
     it "should take a distribution" do
-      @b.nr_thins = UniformDistribution.new(2, 6)
+      @b.nr_thins = ThinpXML::UniformDistribution.new(2, 6)
       md = @b.generate
 
       expect(md.devices.size).to be <= 5
