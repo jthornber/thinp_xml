@@ -11,7 +11,7 @@ module ThinpXML
       end
 
       def emit_superblock(sb, &block)
-        @e.emit_tag(sb, 'superblock', :uuid, :time, :transaction, :data_block_size, :nr_data_blocks, &block)
+        @e.emit_tag(sb, 'superblock', :uuid, :time, :transaction, :flags, :version, :data_block_size, :nr_data_blocks, &block)
       end
 
       def emit_device(dev, &block)
