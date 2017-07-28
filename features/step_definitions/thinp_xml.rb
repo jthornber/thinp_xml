@@ -1,20 +1,20 @@
 When(/^I thinp_xml (.*)$/) do |cmd|
-  run_simple(unescape("thinp_xml #{cmd}"), false)
+  run_simple(sanitize_text("thinp_xml #{cmd}"), false)
 end
 
 When(/^I cache_xml (.*)$/) do |cmd|
-  run_simple(unescape("cache_xml #{cmd}"), false)
+  run_simple(sanitize_text("cache_xml #{cmd}"), false)
 end
 
 When(/^I era_xml (.*)$/) do |cmd|
-  run_simple(unescape("era_xml #{cmd}"), false)
+  run_simple(sanitize_text("era_xml #{cmd}"), false)
 end
 
 Then(/^it should pass$/) do
-  assert_success(true)
+	expect(last_command_started).to be_successfully_executed
 end
 
 Then(/^it should fail$/) do
-  assert_success(false)
+	expect(last_command_started).to_not be_successfully_executed
 end
 
